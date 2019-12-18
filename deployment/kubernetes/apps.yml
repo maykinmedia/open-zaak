@@ -26,6 +26,10 @@
       vars:
         opennotificaties_db_host: "{{ db.privateIp }}"
         opennotificaties_db_port: "{{ db.port }}"
+        opennotificaties_domain: notificaties.gc-k8s-16cpu-64ram.openzaak.nl
+        opennotificaties_replicas: 3
+      tags:
+        - opennotificaties
 
     - role: nlx
       vars:
