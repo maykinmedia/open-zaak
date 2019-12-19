@@ -53,8 +53,13 @@
       when: needs_nfs
       vars:
         disk_name: gce-nfs-disk-perf
-
+        disk_size: 10Gi
+      tags:
+        - storage
 
   tasks:
     - import_tasks: tasks/ingress.yml
       when: needs_ingress
+      tags:
+        - traefik
+

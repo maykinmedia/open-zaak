@@ -19,6 +19,10 @@ spec:
         app: traefik
     spec:
       serviceAccountName: traefik-ingress-controller
+      volumes:
+        - name: acme
+          persistentVolumeClaim:
+            claimName: acme
       containers:
         - name: traefik
           image: traefik:v2.0
@@ -31,11 +35,12 @@ spec:
               cpu: "2"
           args:
             - --api.insecure
+            - --accesslog
             - --entrypoints.web.Address=:80
             - --entrypoints.websecure.Address=:443
             - --providers.kubernetescrd
             - --certificatesResolvers.default.acme.email={{ acme_email }}
-            - --certificatesResolvers.default.acme.storage=acme.json
+            - --certificatesResolvers.default.acme.storage=/storage/acme.json
             - --certificatesResolvers.default.acme.httpChallenge=true
             - --certificatesResolvers.default.acme.httpChallenge.entryPoint=web
           ports:
@@ -45,3 +50,7 @@ spec:
               containerPort: 4443
             - name: admin
               containerPort: 8080
+          volumeMounts:
+            - name: acme
+              mountPath: /storage
+              subPath: traefik

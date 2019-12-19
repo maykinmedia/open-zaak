@@ -100,3 +100,20 @@
         nfs:
           server: nfs-server.nfs-server.svc.cluster.local
           path: "/"
+
+- name: Provision the Traefik PV
+  k8s:
+    name: acme
+    namespace: nfs-server
+    state: present
+    definition:
+      apiVersion: v1
+      kind: PersistentVolume
+      spec:
+        capacity:
+          storage: "1Gi"
+        accessModes:
+          - ReadWriteMany
+        nfs:
+          server: nfs-server.nfs-server.svc.cluster.local
+          path: "/"

@@ -41,6 +41,16 @@
       fail_on_error: yes
       strict: yes
 
+# Storage
+
+- name: Create the acme.json PVC
+  k8s:
+    state: present
+    src: files/traefik/storage.yml
+    validate:
+      fail_on_error: yes
+      strict: yes
+
 # Ingress controller
 
 - name: Define Ingress Service account
